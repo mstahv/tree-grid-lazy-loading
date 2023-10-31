@@ -44,16 +44,16 @@ public class MainView extends VerticalLayout {
         TreeTable.OpenModel<DirectReportsDto> openModel = new TreeTable.OpenModel<DirectReportsDto>() {
 
             @Override
-            public boolean isOpen(DirectReportsDto flatEmployeeDto) {
-                return !closedSubtrees.contains(flatEmployeeDto.getEmployeeId());
+            public boolean isOpen(DirectReportsDto dto) {
+                return !closedSubtrees.contains(dto.getEmployeeId());
             }
 
             @Override
-            public void setOpen(DirectReportsDto flatEmployeeDto, boolean b) {
+            public void setOpen(DirectReportsDto dto, boolean b) {
                 if(b) {
-                    closedSubtrees.remove(flatEmployeeDto.getEmployeeId());
+                    closedSubtrees.remove(dto.getEmployeeId());
                 } else {
-                    closedSubtrees.add(flatEmployeeDto.getEmployeeId());
+                    closedSubtrees.add(dto.getEmployeeId());
                 }
             }
         };
