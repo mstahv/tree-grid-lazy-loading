@@ -3,11 +3,11 @@ package com.example.demo;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.vaadin.firitin.components.TreeTable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Route
 public class MainView extends VerticalLayout {
@@ -24,16 +24,15 @@ public class MainView extends VerticalLayout {
         treeTable.addColumn(DirectReportsDto::getDirectReports).setHeader("Direct reports");
         treeTable.addColumn(DirectReportsDto::getEmployeeId).setHeader("EmId");
         treeTable.addColumn(DirectReportsDto::getManagerId).setHeader("ManId");
+        treeTable.addColumn(DirectReportsDto::isLeaf).setHeader("Is Leif :-)");
         treeTable.addColumn(DirectReportsDto::getPath).setHeader("Path");
         treeTable.addColumn(DirectReportsDto::getLevel).setHeader("Level");
         treeTable.setLevelModel(DirectReportsDto::getLevel);
 
-        // You need to be able to somehow let the TreeTable know if the node is a leaf or not
-        // here we assume that if the title does not contain any of these words, it is a leaf
-        treeTable.setLeafModel(empl ->
-                !Stream.of("officer", "president", "manager")
-                        .anyMatch(s -> empl.getTitle().toLowerCase().contains(s)));
-        // or (if you e.g. have number of subnodes in your query)
+        // This is kind of handy if read-only nodes, but this is query specific in Oracle so does not work if nodes are skipped in the query
+        // TODO figure our an API to TreeTable to disable user expanding/collapsing. Would simplify usage quite a while
+        treeTable.setLeafModel(empl -> empl.isLeaf());
+        // Use number of direct reports (sub query) to determine if node is leaf, this words even if subtree is ignored in the query
         treeTable.setLeafModel(empl -> empl.getDirectReports() == 0);
 
         // For proper lazy loading of large tree structure, open/closed

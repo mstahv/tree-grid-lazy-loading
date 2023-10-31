@@ -12,9 +12,11 @@ public class DirectReportsDto {
     private final Integer level;
     private final String firstName;
     private final String lastName;
+    private final boolean leaf;
     private final String path;
 
-    public DirectReportsDto(String path, Integer managerId, Integer employeeId, String firstName, String lastName, String title, Integer directReports, Integer level) {
+    public DirectReportsDto(Integer level, Boolean isleaf, String path, Integer directReports, Integer employeeId, Integer managerId,  String firstName, String lastName, String title) {
+        this.leaf = isleaf;
         this.path = path;
         this.managerId = managerId;
         this.employeeId = employeeId;
@@ -27,6 +29,10 @@ public class DirectReportsDto {
 
     public Integer getDirectReports() {
         return directReports;
+    }
+
+    public boolean isLeaf() {
+        return leaf;
     }
 
     public String getPath() {
