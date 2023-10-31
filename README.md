@@ -6,7 +6,7 @@ The default branch uses PostgreSQL and a trivial table structure for easy and ef
 
 ## The RDBMS variation in this branch: Using the ltree column type in PostgreSQL
 
-PostgreSQL has a handy ltree column type that can be used to store hierarchical data. The column type is not available in the default installation so you need to install the extension first. The data is then in format 'ROOT.LEVEL1.LEVEL2...' and there are numerous functions and operators to query the data. The query is then rather simple and efficient, but the data maintenance is a bit more complex.
+PostgreSQL has a handy `ltree` type that can be used to store hierarchical data. SQL Server has a rather similar `hierarchyid` type. The column type is not available in the default installation so you need to install the extension first. The data is then in format 'ROOT.LEVEL1.LEVEL2...' and there are numerous functions and operators to query the data. The query is then rather simple and efficient, but the data maintenance is a bit more complex.
 
 In this example I used the ltree as the primary key, containing the whole path:
 ```sql
@@ -15,7 +15,7 @@ managerPath ltree PRIMARY KEY
 
 The table structure and queries is this way rather simple.
 
-For a bit more flexibility and simplicity when maintaining the data, one could combine the managerPath with similar employeeId and managerId approach as in the main branch, and maintain the ltree column with triggers. This way the data maintenance would be as simple as in the main branch, but the queries would be as simple as here as one can utilize the ltree column describing the parent path. This approach is described in [an article by Cris Farmiloe](https://coderwall.com/p/whf3-a/hierarchical-data-in-postgres).
+For a bit more flexibility and simplicity when maintaining the data, one could combine this approach with similar employeeId primary key and managerId foreign key as in the main branch, and maintain the ltree column describing the full path with triggers. This way the data maintenance would be as simple as in the main branch, but the queries would be as simple as here as one can utilize the ltree column describing the parent path. This approach is described in [an article by Cris Farmiloe](https://coderwall.com/p/whf3-a/hierarchical-data-in-postgres).
 
 
 ## Running the Application
