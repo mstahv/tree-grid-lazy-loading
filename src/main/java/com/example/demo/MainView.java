@@ -22,9 +22,7 @@ public class MainView extends VerticalLayout {
         ;
         treeTable.addColumn(DirectReportsDto::getTitle).setHeader("Title");
         treeTable.addColumn(DirectReportsDto::getDirectReports).setHeader("Direct reports");
-        treeTable.addColumn(DirectReportsDto::getEmployeeId).setHeader("EmId");
-        treeTable.addColumn(DirectReportsDto::getManagerId).setHeader("ManId");
-        treeTable.addColumn(DirectReportsDto::getPath).setHeader("Path");
+        treeTable.addColumn(DirectReportsDto::getManagerPath).setHeader("Path");
         treeTable.addColumn(DirectReportsDto::getLevel).setHeader("Level");
         treeTable.setLevelModel(DirectReportsDto::getLevel);
 
@@ -40,20 +38,20 @@ public class MainView extends VerticalLayout {
         // state of subtrees needs to be passed to the backend.
         // In this example, we have all nodes open by default and
         // if you close a node, it will be added to the closedSubtrees set
-        final Set<Integer> closedSubtrees = new HashSet<>();
-        TreeTable.OpenModel<DirectReportsDto> openModel = new TreeTable.OpenModel<DirectReportsDto>() {
+        final Set<String> closedSubtrees = new HashSet<>();
+        TreeTable.OpenModel<DirectReportsDto> openModel = new TreeTable.OpenModel<>() {
 
             @Override
-            public boolean isOpen(DirectReportsDto flatEmployeeDto) {
-                return !closedSubtrees.contains(flatEmployeeDto.getEmployeeId());
+            public boolean isOpen(DirectReportsDto dto) {
+                return !closedSubtrees.contains(dto.getManagerPath());
             }
 
             @Override
-            public void setOpen(DirectReportsDto flatEmployeeDto, boolean b) {
-                if(b) {
-                    closedSubtrees.remove(flatEmployeeDto.getEmployeeId());
+            public void setOpen(DirectReportsDto dto, boolean b) {
+                if (b) {
+                    closedSubtrees.remove(dto.getManagerPath());
                 } else {
-                    closedSubtrees.add(flatEmployeeDto.getEmployeeId());
+                    closedSubtrees.add(dto.getManagerPath());
                 }
             }
         };

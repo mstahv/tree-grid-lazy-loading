@@ -5,40 +5,26 @@ package com.example.demo;
  */
 public class DirectReportsDto {
 
-    private final Integer managerId;
-    private final Integer employeeId;
+    private String managerPath;
     private final Integer directReports;
     private final String title;
-    private final Integer level;
     private final String firstName;
     private final String lastName;
-    private final String path;
 
-    public DirectReportsDto(String path, Integer managerId, Integer employeeId, String firstName, String lastName, String title, Integer directReports, Integer level) {
-        this.path = path;
-        this.managerId = managerId;
-        this.employeeId = employeeId;
+    public DirectReportsDto(String path, String firstName, String lastName, String title, Integer directReports) {
+        this.managerPath = path;
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;
         this.directReports = directReports;
-        this.level = level;
     }
 
     public Integer getDirectReports() {
         return directReports;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
+    public String getManagerPath() {
+        return managerPath;
     }
 
     public String getFirstName() {
@@ -54,17 +40,17 @@ public class DirectReportsDto {
     }
 
     public Integer getLevel() {
-        return level;
+        return managerPath.split("\\.").length - 1;
     }
 
     @Override
     public String toString() {
-        return "FlatEmployeeDto{" +
-                "managerId=" + managerId +
-                ", employeeId=" + employeeId +
+        return "DirectReportsDto{" +
+                "managerPath='" + managerPath + '\'' +
+                ", directReports=" + directReports +
                 ", title='" + title + '\'' +
-                ", level=" + level +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
-
 }
