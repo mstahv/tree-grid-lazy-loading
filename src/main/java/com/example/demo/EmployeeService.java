@@ -15,11 +15,11 @@ public class EmployeeService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<DirectReportsDto> findAll(int skip, int limit, Set<Integer> skipSubtree) {
+    public List<DirectReportsDto> findAll(int skip, int limit, Set<DirectReportsDto> skipSubtree) {
         String skippedSubTreesSql = skipSubtree.isEmpty() ?
                 "" :
                 "WHERE e.managerId NOT IN (%s)"
-                .formatted(String.join(",", skipSubtree.stream().map(i -> i.toString()).toList()));
+                .formatted(String.join(",", skipSubtree.stream().map(i -> i.getEmployeeId().toString()).toList()));
 
         return jdbcTemplate.query("""
  WITH RECURSIVE DirectReports (path, managerId, employeeId, firstName, lastName, title, directReports, level)
