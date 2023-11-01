@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 @Route
 public class MainView extends VerticalLayout {
     public MainView(EmployeeService service) {
-        add(new H1("Tree structure from PostgreSQL using CTE"));
+        add(new H1("Tree structure from PostgreSQL using LTREE extension"));
 
         TreeTable<DirectReportsDto> treeTable = new TreeTable<>();
         treeTable.addHierarchyColumn(empl -> empl.getFirstName() + " " + empl.getLastName())
