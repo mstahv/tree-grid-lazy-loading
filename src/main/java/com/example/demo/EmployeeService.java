@@ -15,11 +15,11 @@ public class EmployeeService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<DirectReportsDto> findAll(int skip, int limit, Set<Integer> skipSubtree) {
+    public List<DirectReportsDto> findAll(int skip, int limit, Set<DirectReportsDto> skipSubtree) {
         String skippedSubTreesSql = skipSubtree.isEmpty() ?
                 "" :
                 "managerId NOT IN (%s) AND "
-                .formatted(String.join(",", skipSubtree.stream().map(i -> i.toString()).toList()));
+                .formatted(String.join(",", skipSubtree.stream().map(i -> i.getEmployeeId().toString()).toList()));
 
         return jdbcTemplate.query("""
             SELECT
@@ -29,6 +29,7 @@ public class EmployeeService {
                 emp.lastName,
                 emp.title,
                 (SELECT COUNT(*) FROM employees WHERE managerId = emp.employeeId) AS directReports,
+                -- connect by specific pseudo columns as an example, can be handy 
                 LEVEL,
                 CONNECT_BY_ISLEAF,
                 SYS_CONNECT_BY_PATH(employeeId, '/') path

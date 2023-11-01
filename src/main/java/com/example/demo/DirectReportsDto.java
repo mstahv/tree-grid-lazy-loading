@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Objects;
+
 /**
  * Dto for the SQL query.
  */
@@ -73,4 +75,18 @@ public class DirectReportsDto {
                 '}';
     }
 
+    // equals and hashCode so that they work in selection & in java.util.Collections
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DirectReportsDto that = (DirectReportsDto) o;
+        return Objects.equals(employeeId, that.employeeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId);
+    }
 }
