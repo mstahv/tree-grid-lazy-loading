@@ -9,3 +9,5 @@ In this branch we use non-standard `CONNECT BY` query available in Oracle. The q
 ## Running the Application
 
 The app is a demo app so you should check it out to your IDE and run from there. You need to have Docker installed and running as the demo uses TestContainers to start up the DB server (and wires that to the Spring Boot JDBC). **Use the main method from LocalDevApplication.java to start the app**.
+
+In case you happen to be developing on M1 Mac, not that the Oracle XE image is not available for ARM architecture. Check [these instructions](https://blog.jdriven.com/2022/07/running-oracle-xe-with-testcontainers-on-apple-silicon/) for a workaround. 
