@@ -15,7 +15,6 @@ public class DemoApplication implements CommandLineRunner {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 

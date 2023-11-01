@@ -15,18 +15,18 @@ public class EmployeeService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<DirectReportsDto> findAll(int skip, int limit, Set<String> skipSubtree) {
+    public List<DirectReportsDto> findAll(int skip, int limit, Set<DirectReportsDto> skipSubtree) {
         String skippedSubTreesSql = skipSubtree.isEmpty() ?
                 "" :
-                "WHERE subpath(e.managerPath, 0, -1) NOT IN (%s)"
-                .formatted(String.join(",", skipSubtree.stream().map(s -> "'%s'".formatted(s)).toList()));
+                "WHERE NOT subpath(e.managerPath, 0, -1) <@ ARRAY[%s]"
+                .formatted(String.join(",", skipSubtree.stream().map(s -> "text2ltree('%s')".formatted(s.getManagerPath())).toList()));
 
         return jdbcTemplate.query("""
     SELECT 
         e.managerPath, 
         e.firstName, 
         e.lastName, 
-        e.title, 
+        e.title,
         (SELECT COUNT(*) FROM employees WHERE subpath(managerPath, 0, -1) = e.managerPath) directReports
     FROM employees e
     -- skip subtrees closed in the UI
